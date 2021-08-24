@@ -4,6 +4,8 @@ import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import { useAuth0 } from "@auth0/auth0-react"
 import Card from 'react-bootstrap/Card'
+import RunningStats from './components/RunningStats';
+import { Route } from 'react-router-dom'
 
 
 function App() {
@@ -17,6 +19,9 @@ function App() {
       <LogoutButton></LogoutButton>
       <Card className='userCard'>
       <Profile></Profile>
+      <Route path='/stats'>
+        <RunningStats />
+      </Route>
       </Card>
     </div>
   );

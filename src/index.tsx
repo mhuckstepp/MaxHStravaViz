@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router} from "react-router-dom";
 
 let domain: string
 let clientID: string
@@ -14,14 +15,14 @@ if (process.env["REACT_APP_AUTH0_DOMAIN"] && process.env["REACT_APP_AUTH0_CLIENT
   throw new Error("Auth0 env variables are not set")
 }
 
-domain = process.env["REACT_APP_AUTH0_DOMAIN"] ?? 'whatever default'
-
 ReactDOM.render(
       <Auth0Provider
       domain={domain}
       clientId={clientID}
       redirectUri={window.location.origin}>
-      <App />
+        <Router>
+            <App />
+        </Router>
       </Auth0Provider>,
   document.getElementById('root')
 );
