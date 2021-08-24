@@ -3,6 +3,7 @@ import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import { useAuth0 } from "@auth0/auth0-react"
+import Card from 'react-bootstrap/card'
 
 
 function App() {
@@ -14,7 +15,9 @@ function App() {
     <div className="App">
       <LoginButton></LoginButton>
       <LogoutButton></LogoutButton>
+      <Card className='userCard'>
       <Profile></Profile>
+      </Card>
     </div>
   );
 }
