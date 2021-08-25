@@ -3,9 +3,6 @@ import axios from "axios";
 let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
 let strava_Redirect = process.env["REACT_APP_STRAVA_REDIRECT_URI"]
 
-console.log(strava_Redirect);
-
-
 export const authLink = `https://www.strava.com/oauth/authorize?client_id=${stravaClientID}&redirect_uri=${strava_Redirect}&response_type=code&scope=read`
 
 export const tokenClient = axios.create({

@@ -70,7 +70,7 @@ const RunningStats = () => {
                 setStravaError(err)
             })
         }
-    }, [stravaCode])
+    }, [stravaCode, stravaClientID, stravaSecret])
     
     useEffect(() => {
         if (stravaAccessToken){
