@@ -6,9 +6,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Card from "react-bootstrap/Card";
 import RunningStats from "./components/RunningStats";
 import { Route } from "react-router-dom";
+import { authLink } from "./api";
 
 function App() {
-  const { isLoading } = useAuth0();
+  const { isLoading, isAuthenticated } = useAuth0();
 
   if (isLoading) return <div> Loading...</div>;
 
@@ -17,17 +18,17 @@ function App() {
       <Route exact path="/">
         <LoginButton></LoginButton>
         <LogoutButton></LogoutButton>
+        {isAuthenticated && 
+        <div>
         <Card className="userCard">
           <Profile></Profile>
         </Card>
-        Here
         <a
-          href={
-            "https://www.strava.com/oauth/authorize?client_id=69294&redirect_uri=https://www.maxrunmax.xyz/stats&response_type=code&scope=read"
-          }
+          href={authLink}
         >
           Login to Strava
         </a>
+        </div>}
       </Route>
       <Route path="/stats">
         <RunningStats />
