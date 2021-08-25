@@ -6,12 +6,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Card from "react-bootstrap/Card";
 import RunningStats from "./components/RunningStats";
 import { Route } from "react-router-dom";
-import { authLink } from "./api";
+
 
 function App() {
   const { isLoading, isAuthenticated } = useAuth0();
 
-  if (isLoading) return <div> Loading...</div>;
+  if (isLoading) return <div className="App"> Loading...</div>;
 
   return (
     <div className="App">
@@ -23,11 +23,6 @@ function App() {
         <Card className="userCard">
           <Profile></Profile>
         </Card>
-        <a
-          href={authLink}
-        >
-          Login to Strava
-        </a>
         </div>}
       </Route>
       <Route path="/stats">
