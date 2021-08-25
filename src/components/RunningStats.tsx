@@ -1,11 +1,11 @@
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
-import { apiClient, tokenClient } from '../api'
+import { apiClient, getStravaCodeFromParams, tokenClient } from '../api'
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
     const [stravaError, setStravaError] = useState('')
-    const [stravaAccessToken, setStravaAccessToken] = useState('')
+    const [haveValidToken, setHaveValidToken] = useState(false)
     const [userInfo, setUserInfo] = useState(
         {
             id: 20352663,
@@ -31,24 +31,17 @@ const RunningStats = () => {
         }
     )
     const [stravaData, setStravaData] = useState('')
+    let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
+    let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
     
     useEffect(() => {
-        const urlSearchParams = new URLSearchParams(window.location.search);
-        const params = Object.fromEntries(urlSearchParams.entries())
+        const params = getStravaCodeFromParams(window)
         setStravaCode(params.code)
         if (params.error){
             setStravaError(params.error)
         }
-        console.log(stravaCode);
     }, [])
 
-    console.log(stravaCode);
-
-
-    let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
-    let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
-
-    
     useEffect(() => {
         if (stravaCode){
             tokenClient({
@@ -61,10 +54,9 @@ const RunningStats = () => {
                     grant_type: "authorization_code"
                 }
             }).then(response => {
-                console.log(response);
                 setUserInfo(response.data.athlete)
-                setStravaAccessToken(response.data.access_token)
-                localStorage.setItem('accessToken', response.data.access_token)
+                setHaveValidToken(true)
+                localStorage.setItem('StravaAccessToken', response.data.access_token)
             }).catch(err => {
                 console.log(err)
                 setStravaError(err)
@@ -73,24 +65,22 @@ const RunningStats = () => {
     }, [stravaCode, stravaClientID, stravaSecret])
     
     useEffect(() => {
-        if (stravaAccessToken){
+        if (haveValidToken){
             apiClient({
                 url: `/athletes/${userInfo.id}/stats`,
                 method: "get"
             })
                 .then((response) => {
-                    // return the data
-                    console.log(response)
                     setStravaData(response.data)
                 })
                 .catch((err) => {
                     throw err;
                 })
         }
-    }, [stravaAccessToken])
+    }, [haveValidToken, userInfo.id])
 
     if(stravaError){
-        return <div> {JSON.stringify(stravaError)} </div>
+        return <div> <JSONPretty data={stravaError}/> </div>
     }
 
     if (!userInfo){
@@ -99,7 +89,12 @@ const RunningStats = () => {
     
     return (
         <div>
-            Hello {userInfo.firstname}
+            <h2>Hello {userInfo.firstname}</h2>
+            <br></br>
+            <h4>Thanks for checking out your Strava info with us.</h4>
+            <br></br>
+            <p>That's it, that's all the App does :)</p>
+            <br></br>
             <img alt={userInfo.username} src={userInfo.profile} />
             <br></br>
             {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
