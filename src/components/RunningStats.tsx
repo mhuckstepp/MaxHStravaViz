@@ -1,4 +1,5 @@
 import { useState, useEffect} from 'react'
+import JSONPretty from 'react-json-pretty'
 import { apiClient, tokenClient } from '../api'
 
 const RunningStats = () => {
@@ -93,15 +94,16 @@ const RunningStats = () => {
     }
 
     if (!userInfo){
-        return <div>Loading...</div>
+        return <div>Loading up your Strava Data...Give us a minute</div>
     }
     
     return (
         <div>
             Hello {userInfo.firstname}
+            <img alt={userInfo.username} src={userInfo.profile} />
             <br></br>
             {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
-            {stravaData && JSON.stringify(stravaData)}
+            {stravaData && <JSONPretty data={stravaData}/>}
         </div>
     )
 }

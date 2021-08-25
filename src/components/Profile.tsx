@@ -7,7 +7,7 @@ const Profile = () => {
     if (isAuthenticated && user) {
         return (
             <div>
-                <h1>Hello {user?.name}</h1>
+                <h1>Hello {user?.name || user?.email || user?.nickname}</h1>
                 <JSONPretty data={user}/>
                 <img alt='prof pic' src={user.picture} />
             </div>
