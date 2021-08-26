@@ -17,8 +17,8 @@ const Profile = () => {
     
     if (isAuthenticated && user) {
         return (
-            <>
-                <div>
+            <div style={userCard}>
+                <div > 
                     <h1>Hello {user?.name || user?.email || user?.nickname}</h1>
                     <img alt='prof pic' src={user.picture} />
                     <p> {texts.step2} </p>
@@ -38,18 +38,34 @@ const Profile = () => {
                 </div>}
                 {hasStrava === 1 && <animated.button type="button" className="maxButton btn btn-info m-5" onClick={() => window.location.assign(authLink)}> Grab and display your Strava data </animated.button>}
                 {hasStrava === 2 && <animated.button type="button" className=" userButton btn bg-warning text-dark m-5" onClick={() => window.location.assign(authLink)}> Grab and display Max's Strava Data </animated.button>}
-            </>
+            </div>
         )
     }
 
     return (
-            <>
+            <div style={userCard}>
                 <h1>Hello Unknown</h1>
                 <p> Thanks for visiting. I built this site to demonstrate Auth0 and Strava Integration visually with animated React Components</p>
                 <p> Click Login to the App above to see the process of Auth0</p>
-            </>
+            </div>
         )
 }
 
+
+const userCard: any = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    margin: '3% 0',
+    padding: '3%',
+    background: 'white',
+    border: '2px solid lightgray',
+    borderRadius: '10px',
+    overflowWrap: 'anywhere',
+    width: '100%',
+  }
+    
 
 export default Profile

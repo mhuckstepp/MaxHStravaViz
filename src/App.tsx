@@ -37,10 +37,8 @@ function App() {
         <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}></LoginButton>
         {!loggingIn &&
         <>
-        <LogoutButton></LogoutButton>
-        <div className="userCard">
+          <LogoutButton></LogoutButton>
           <Profile></Profile>
-        </div>
         </>
         }
       </Route>
