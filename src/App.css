@@ -1,10 +1,10 @@
 .App {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 15vh auto;
+  margin: 10vh auto;
 }
 
 .userCard {
@@ -13,6 +13,12 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 5%;
-  padding:10%;
+  margin: 3% 0;
+  padding: 3%;
+  background: white;
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+  width: 100%;
 }
+  
