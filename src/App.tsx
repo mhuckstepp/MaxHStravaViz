@@ -9,7 +9,7 @@ import { Route } from "react-router-dom";
 
 
 function App() {
-  const { isLoading, isAuthenticated } = useAuth0();
+  const { isLoading } = useAuth0();
 
   if (isLoading) return <div className="App"> Loading...</div>;
 
@@ -18,12 +18,11 @@ function App() {
       <Route exact path="/">
         <LoginButton></LoginButton>
         <LogoutButton></LogoutButton>
-        {isAuthenticated && 
         <div>
         <Card className="userCard">
           <Profile></Profile>
         </Card>
-        </div>}
+        </div>
       </Route>
       <Route path="/stats">
         <RunningStats />
