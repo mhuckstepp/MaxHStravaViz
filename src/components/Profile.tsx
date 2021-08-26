@@ -1,6 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { authLink } from "../api";
 import {useState} from 'react'
+import { texts } from '../assets/text';
+import JSONPretty from 'react-json-pretty';
 
 const Profile = () => {
     const {user, isAuthenticated} = useAuth0()
@@ -9,9 +11,14 @@ const Profile = () => {
     if (isAuthenticated && user) {
         return (
             <>
+                <div>
                 <h1>Hello {user?.name || user?.email || user?.nickname}</h1>
                     <p> Thanks for visiting. I built this site to demonstrate Auth0 and Strava Integration visually with animated React Components</p>
-                <img alt='prof pic' src={user.picture} />
+                    <img alt='prof pic' src={user.picture} />
+                    <p> {texts.step2} </p>
+                    <p>Here is all the info that comes off of your token (provided to us by Auth0):</p>
+                    <JSONPretty data={user} />
+                </div>
                 <p>Do you have Strava?</p>
                 {hasStrava === 0 &&
                 <div className='bigButtons'>

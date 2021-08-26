@@ -1,22 +1,29 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { useState } from 'react'
+import Step1Ani from "./Step1Ani"
 
-const LoginButton = () => {
+interface Props {
+    loggingIn: boolean,
+    setLoggingIn: Function
+}
+
+const LoginButton = (props: Props) => {
     const { loginWithRedirect, isAuthenticated } = useAuth0()
-    const [loggingIn, setLoggingIn] = useState(false)
-
+    const { loggingIn, setLoggingIn } = props
     const delayedLogin = () => {
             setLoggingIn(true)
-            setTimeout(loginWithRedirect, 3000)
+            setTimeout(loginWithRedirect, 4000)
         }
 
     if (!isAuthenticated) {
     return (
         <>
+        {!loggingIn && 
         <button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => delayedLogin()}>
             Login to the App
         </button>
-        {loggingIn && <p> We are directing the user (you) to and Auth0 domain that is configured for this App. Once you are there, you will have the chance to create credentials with Auth0 or use an existing provider like google or gitHub who can verify you are who you say you are. </p>}
+        }
+        <br></br>
+        {loggingIn && <Step1Ani></Step1Ani>}
         </>
     )
     }
