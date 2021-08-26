@@ -11,7 +11,7 @@ const LoginButton = (props: Props) => {
     const { loggingIn, setLoggingIn } = props
     const delayedLogin = () => {
             setLoggingIn(true)
-            setTimeout(loginWithRedirect, 4000)
+            setTimeout(loginWithRedirect, 15000)
         }
 
     if (!isAuthenticated) {
@@ -22,13 +22,22 @@ const LoginButton = (props: Props) => {
             Login to the App
         </button>
         }
+        <div style={loginBoxStyle}>
         <br></br>
         {loggingIn && <Step1Ani></Step1Ani>}
+        </div>
         </>
     )
     }
 
     return null
+}
+
+const loginBoxStyle: any = {
+    width: '75%',
+    alignSelf: 'center',
+    margin: 'auto',
+    fontSize: '1.5rem'
 }
 
 export default LoginButton

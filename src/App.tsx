@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import RunningStats from "./components/RunningStats";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
+import { ScaleLoader } from 'react-spinners'
 
 
 function App() {
@@ -21,29 +22,32 @@ function App() {
      config: config.molasses 
     }))
 
-    if (loggingIn) {
+  if (loggingIn) {
     api.start({to: { opacity: 0 },
       from: { opacity: 1 },
+      delay: 14500,
       config: config.molasses })
     }
-  if (isLoading) return <div className="App"> Loading...</div>;
 
   return (
     <div className="App">
-    <animated.div  style={springProps}>
+    {isLoading && <ScaleLoader color='green' loading/>}
+    {!isLoading && <animated.div  style={springProps}>
       <Route exact path="/">
         <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}></LoginButton>
+        {!loggingIn &&
+        <>
         <LogoutButton></LogoutButton>
-        <div>
-        <Card className="userCard">
+        <div className="userCard">
           <Profile></Profile>
-        </Card>
         </div>
+        </>
+        }
       </Route>
       <Route path="/stats">
         <RunningStats />
       </Route>
-      </animated.div>
+      </animated.div>}
     </div>
   );
 }
