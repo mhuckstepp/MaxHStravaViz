@@ -100,8 +100,8 @@ const RunningStats = () => {
             {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
             {stravaData && 
             <> 
-            <JSONPretty data={stravaData}/>
             <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
+            <JSONPretty data={stravaData}/>
             </>}
         </div>
     )
