@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import Step1Ani from "./Step1Ani"
+import './Profile/Profile.css'
 
 interface Props {
     loggingIn: boolean,
@@ -18,7 +19,7 @@ const LoginButton = (props: Props) => {
     return (
         <>
         {!loggingIn && 
-        <button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => delayedLogin()}>
+        <button className="coolButton1" onClick={() => delayedLogin()}>
             Login to the App
         </button>
         }

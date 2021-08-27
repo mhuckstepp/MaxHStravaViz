@@ -1,7 +1,6 @@
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
 import { apiClient, getStravaCodeFromParams, tokenClient } from '../api'
-import StravaProfile from './StravaProfile/StravaProfile'
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
@@ -31,14 +30,7 @@ const RunningStats = () => {
             follower: null
         }
     )
-    const [stravaData, setStravaData] = useState({
-        recent_run_totals: {
-            count: "",
-            distance: '',
-            moving_time: '',
-            elevation_gain: ''
-        }
-    })
+    const [stravaData, setStravaData] = useState('')
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
     let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
     
@@ -80,7 +72,6 @@ const RunningStats = () => {
             })
                 .then((response) => {
                     setStravaData(response.data)
-                    console.log(response.data);
                 })
                 .catch((err) => {
                     throw err;
@@ -89,21 +80,27 @@ const RunningStats = () => {
     }, [haveValidToken, userInfo.id])
 
     if(stravaError){
-        return <div> 
-            Sorry we had a problem - go back to <a href='https://maxrunmax.xyz'> maxrunmax.xyz </a> and start over if you would like
-            <JSONPretty data={stravaError}/> 
-            </div>
+        return <div> <JSONPretty data={stravaError}/> </div>
+    }
+
+    if (!userInfo){
+        return <div>Loading up your Strava Data...Give us a minute</div>
     }
     
     return (
         <div>
+            <h2>Hello {userInfo.firstname}</h2>
+            <br></br>
+            <h4>Thanks for checking out your Strava info with us.</h4>
+            <br></br>
+            <p>That's it, that's all the App does :)</p>
+            <br></br>
+            <img alt={userInfo.username} src={userInfo.profile} />
+            <br></br>
             {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
-            {stravaData && 
-            <> 
-            <JSONPretty data={stravaData}/>
-            <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
-            </>}
+            {stravaData && <JSONPretty data={stravaData}/>}
         </div>
     )
 }
+
 export default RunningStats
