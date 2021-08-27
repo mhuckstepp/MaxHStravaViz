@@ -4,7 +4,6 @@ import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import Profile from "./components/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
-import Card from "react-bootstrap/Card";
 import RunningStats from "./components/RunningStats";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
@@ -15,7 +14,6 @@ function App() {
   const { isLoading } = useAuth0();
   const [loggingIn, setLoggingIn] = useState(false)
   
-
   const [springProps, api] = useSpring(() => ({
      to: { opacity: 1 },
      from: { opacity: 0 },

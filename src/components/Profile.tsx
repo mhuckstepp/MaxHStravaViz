@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { authLink } from "../api";
-import {useState} from 'react'
+import { useState } from 'react'
 import { texts } from '../assets/text';
 import JSONPretty from 'react-json-pretty';
 import { useSpring, animated, config } from 'react-spring'
@@ -9,12 +9,21 @@ const Profile = () => {
     const {user, isAuthenticated} = useAuth0()
     const [hasStrava, setHasStrava] = useState(0)
 
-    const [springProps, api] = useSpring(() => ({
-        to: { opacity: 1 },
-        from: { opacity: 0 },
-        config: config.molasses 
+    const [buttonProps, buttonapi] = useSpring(() => ({
+        to: { opacity: 1, margin: 10, width: 70, height: 50 },
+        from: { opacity: 0, margin: 5, width: 70, height: 50 },
        }))
-    
+
+    const clickHasStrava = (doesHave: number) => {
+        if (hasStrava === 0){
+        buttonapi.start({ 
+            to: { opacity: 1, margin: 2, width: 50, height: 30 },
+            from: { opacity: 0, margin: 10, width: 60, height: 40  },
+            config: config.molasses })
+        }
+        setHasStrava(doesHave)
+    }
+
     if (isAuthenticated && user) {
         return (
             <div style={userCard}>
@@ -26,18 +35,20 @@ const Profile = () => {
                     <JSONPretty data={user} />
                 </div>
                 <p>Do you have Strava?</p>
-                {hasStrava === 0 &&
-                <div className='bigButtons'>
-                    <animated.button type="button" className="btn btn-success m-2" onClick={() => setHasStrava(1)}> Yes </animated.button>
-                    <animated.button type="button" className="btn btn-dark m-2" onClick={() => setHasStrava(2)}> No </animated.button>
-                </div>}
-                {hasStrava !== 0 &&
-                <div className='smallButtons'>
-                    <animated.button  type="button" className="btn btn-success m-1 btn-sm" style={springProps} onClick={() => setHasStrava(1)}> Yes </animated.button>
-                    <animated.button type="button" className="btn btn-dark m-1 btn-sm" onClick={() => setHasStrava(2)}> No </animated.button>
-                </div>}
-                {hasStrava === 1 && <animated.button type="button" className="maxButton btn btn-info m-5" onClick={() => window.location.assign(authLink)}> Grab and display your Strava data </animated.button>}
-                {hasStrava === 2 && <animated.button type="button" className=" userButton btn bg-warning text-dark m-5" onClick={() => window.location.assign(authLink)}> Grab and display Max's Strava Data </animated.button>}
+                <div>
+                    <animated.button style={{
+                        backgroundColor: 'orange',
+                        borderRadius: 10,
+                        ...buttonProps,
+                    }} onClick={() => clickHasStrava(1)}> Yes </animated.button>
+                    <animated.button style={{
+                        backgroundColor: 'cyan',
+                        borderRadius: 10,
+                        ...buttonProps,
+                    }} onClick={() => clickHasStrava(2)}> No </animated.button>
+                </div>
+                {hasStrava === 1 && <animated.button className="maxButton btn btn-info m-5" onClick={() => window.location.assign(authLink)}> Grab and display your Strava data </animated.button>}
+                {hasStrava === 2 && <animated.button  className=" userButton btn bg-warning text-dark m-5"  onClick={() => window.location.assign(authLink)}> Grab and display Max's Strava Data </animated.button>}
             </div>
         )
     }
@@ -66,6 +77,7 @@ const userCard: any = {
     overflowWrap: 'anywhere',
     width: '100%',
   }
-    
+
+
 
 export default Profile
