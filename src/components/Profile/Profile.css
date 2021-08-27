@@ -1,0 +1,128 @@
+.userCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 3% 0;
+    padding: 3%;
+    background: white;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+    width: 100%;
+  }
+
+
+  .coolButton1 {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background-color: #3a86ff;
+    margin: 4px;
+  }
+  .coolButton1:hover {
+    border-radius: 5px;
+    padding-right: 24px;
+    padding-left:8px;
+  }
+  .coolButton1:hover:after {
+    opacity: 1;
+    right: 10px;
+  }
+  .coolButton1:after {
+    content: "\00BB";
+    position: absolute;
+    opacity: 0;
+    font-size: 20px;
+    line-height: 40px;
+    top: 0;
+    right: -20px;
+    transition: 0.4s;
+  }
+
+  .coolButton2 {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background-color: #ef233c;
+    margin: 4px;
+  }
+  .coolButton2:hover {
+    border-radius: 5px;
+    padding-right: 24px;
+    padding-left:8px;
+  }
+  .coolButton2:hover:after {
+    opacity: 1;
+    right: 10px;
+  }
+  .coolButton2:after {
+    content: "\00BB";
+    position: absolute;
+    opacity: 0;
+    font-size: 20px;
+    line-height: 40px;
+    top: 0;
+    right: -20px;
+    transition: 0.4s;
+  }
+
+  .coolButton3 {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid #57cc99;
+    background: #57cc99;
+    margin-top: 2%;
+  }
+  .coolButton3:hover {
+    background: #fff;
+    color: #57cc99
+  }
+
+  .coolButton4 {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: 2px solid #ffd819;
+    background: #ffd819;
+    margin-top: 2%;
+  }
+  .coolButton4:hover {
+    background: #fff;
+    color: #ffd819
+  }
