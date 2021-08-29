@@ -1,11 +1,12 @@
+import './RunningStats.css'
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
-import { apiClient, getStravaCodeFromParams, tokenClient } from '../api'
-import StravaProfile from './StravaProfile/StravaProfile'
+import { apiClient, getStravaCodeFromParams, tokenClient } from '../../api'
+import StravaProfile from '../StravaProfile/StravaProfile'
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
-    const [stravaError, setStravaError] = useState('')
+    const [stravaError, setStravaError] = useState({message: ''})
     const [haveValidToken, setHaveValidToken] = useState(false)
     const [userInfo, setUserInfo] = useState(
         {
@@ -46,7 +47,7 @@ const RunningStats = () => {
         const params = getStravaCodeFromParams(window)
         setStravaCode(params.code)
         if (params.error){
-            setStravaError(params.error)
+            setStravaError({message: params.error})
         }
     }, [])
 
@@ -89,11 +90,14 @@ const RunningStats = () => {
     }, [haveValidToken, userInfo.id])
 
     if(stravaError){
-        return <div> 
-            Sorry we had a problem - go back to <a href='https://maxrunmax.xyz'> maxrunmax.xyz </a> and start over if you would like
-            <JSONPretty data={stravaError}/> 
+        return (
+        <div className='errContainer'>
+            <div className='userCard'> 
+                <span> Sorry we had a problem - go back to <a href='https://maxrunmax.xyz'> maxrunmax.xyz</a> and start over if you would like to try again </span>
             </div>
-    }
+            <JSONPretty data={stravaError.message}/> 
+        </div>
+        )}
     
     return (
         <div>
@@ -101,6 +105,7 @@ const RunningStats = () => {
             {stravaData && 
             <> 
             <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
+            <p> See the JSON API response from Strava below </p>
             <JSONPretty data={stravaData}/>
             </>}
         </div>

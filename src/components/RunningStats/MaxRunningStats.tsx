@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
-import { apiClient, getStravaCodeFromParams, tokenClient } from '../api'
+import { apiClient, getStravaCodeFromParams, tokenClient } from '../../api'
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
