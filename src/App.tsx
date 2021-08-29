@@ -4,7 +4,7 @@ import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import Profile from "./components/Profile/Profile";
 import { useAuth0 } from "@auth0/auth0-react";
-import RunningStats from "./components/RunningStats";
+import RunningStats from "./components/RunningStats/RunningStats";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
 import { ScaleLoader } from 'react-spinners'
@@ -29,21 +29,23 @@ function App() {
 
   return (
     <div className="App">
-    {isLoading && <ScaleLoader color='green' loading/>}
-    {!isLoading && <animated.div  style={springProps}>
-      <Route exact path="/">
-        <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}></LoginButton>
-        {!loggingIn &&
-        <>
-          <LogoutButton></LogoutButton>
-          <Profile></Profile>
-        </>
-        }
-      </Route>
-      <Route path="/stats">
-        <RunningStats />
-      </Route>
-      </animated.div>}
+      {isLoading && <ScaleLoader color='orange' loading/>}
+      {!isLoading && (
+      <animated.div  style={springProps}>
+        <Route exact path="/">
+          <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}></LoginButton>
+          {!loggingIn &&
+          <>
+            <LogoutButton></LogoutButton>
+            <Profile></Profile>
+          </>
+          }
+        </Route>
+        <Route path="/stats">
+          <RunningStats />
+        </Route>
+        </animated.div>
+      )}
     </div>
   );
 }
