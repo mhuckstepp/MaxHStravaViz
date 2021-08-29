@@ -31,19 +31,19 @@ function App() {
     <div className="App" data-testid="App">
       {isLoading && <ScaleLoader color='orange' loading/>}
       {!isLoading && (
-      <animated.div  style={springProps}>
-        <Route exact path="/">
-          <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}></LoginButton>
-          {!loggingIn &&
-          <>
-            <LogoutButton></LogoutButton>
-            <Profile></Profile>
-          </>
-          }
-        </Route>
-        <Route path="/stats">
-          <RunningStats />
-        </Route>
+        <animated.div  style={springProps}>
+          <Route exact path="/">
+            <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}/>
+            {!loggingIn &&
+              <>
+                <LogoutButton/>
+                <Profile/>
+              </>
+            }
+          </Route>
+          <Route path="/stats">
+            <RunningStats />
+          </Route>
         </animated.div>
       )}
     </div>
