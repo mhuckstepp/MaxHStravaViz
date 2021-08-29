@@ -28,7 +28,7 @@ function App() {
     }
 
   return (
-    <div className="App">
+    <div className="App" data-testid="App">
       {isLoading && <ScaleLoader color='orange' loading/>}
       {!isLoading && (
       <animated.div  style={springProps}>
