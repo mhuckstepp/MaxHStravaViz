@@ -19,7 +19,7 @@ const LoginButton = (props: Props) => {
     return (
         <>
         {!loggingIn && 
-        <button className="coolButton1" onClick={() => delayedLogin()}>
+        <button className="coolButton1" data-testid="LoginButton" onClick={() => delayedLogin()}>
             Login to the App
         </button>
         }
