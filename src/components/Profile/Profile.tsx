@@ -41,7 +41,7 @@ const Profile = () => {
             <div className='userCard'>
                 <h1>Hello Stranger</h1>
                 <p> Thanks for visiting. I built this site to demonstrate Auth0 and Strava Integration visually with animated React Components</p>
-                <p> Click Login to the App above to see the process of Auth0</p>
+                <p> Click Login above to see the process of Auth0</p>
             </div>
         )
 }
