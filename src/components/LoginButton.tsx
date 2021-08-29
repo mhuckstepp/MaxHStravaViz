@@ -25,7 +25,9 @@ const LoginButton = (props: Props) => {
         }
         <div style={loginBoxStyle}>
         <br></br>
-        {loggingIn && <Step1Ani></Step1Ani>}
+        {loggingIn && (
+             <Step1Ani></Step1Ani>
+        )}
         </div>
         </>
     )

@@ -1,0 +1,8 @@
+.errContainer {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
