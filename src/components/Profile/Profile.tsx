@@ -1,9 +1,9 @@
+import "./Profile.css";
 import { useAuth0 } from '@auth0/auth0-react'
 import { authLink } from "../../api";
 import { useState } from 'react'
 import { texts } from '../../assets/text';
 import JSONPretty from 'react-json-pretty';
-import "./Profile.css";
 
 const Profile = () => {
     const {user, isAuthenticated} = useAuth0()
@@ -18,7 +18,7 @@ const Profile = () => {
     if (isAuthenticated && user) {
         return (
             <div className='userCard'>
-                <div > 
+                <div className='userText'> 
                     <h1>Hello {user?.name || user?.email || user?.nickname}</h1>
                     <img alt='prof pic' src={user.picture} />
                     <p> {texts.step2} </p>
@@ -26,7 +26,7 @@ const Profile = () => {
                     <JSONPretty data={user} />
                 </div>
                 <p>Do you have Strava?</p>
-                <div>
+                <div className='userButtons'>
                     <button className='coolButton1' onClick={() => clickHasStrava(1)}> Yes </button>
                     <button className='coolButton2' onClick={() => clickHasStrava(2)}> No </button>
                 </div>

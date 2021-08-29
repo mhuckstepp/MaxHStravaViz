@@ -8,7 +8,7 @@ const StravaProfile = (props: Props) => {
     const {userInfo, stravaData} = props
 
     return (
-        <div className='userCard'>
+        <div className='stravaCard'>
                     <h1>Hello {userInfo?.firstname || userInfo?.username}</h1>
                     <img alt='prof pic' src={userInfo.profile} />
                     <p>Check your Strava stats below</p>
