@@ -88,8 +88,9 @@ const RunningStats = () => {
                 })
         }
     }, [haveValidToken, userInfo.id])
-
-    if(stravaError){
+    console.log(stravaError);
+    
+    if(stravaError.message.length){
         return (
         <div className='errContainer'>
             <div className='userCard'> 
