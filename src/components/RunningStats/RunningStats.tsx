@@ -74,7 +74,7 @@ const RunningStats = () => {
                 setStravaData({...stravaData, gotResponse: true})
             })
         }
-    }, [stravaCode, stravaClientID, stravaSecret])
+    }, [stravaCode, stravaClientID, stravaSecret, stravaData])
     
     useEffect(() => {
         if (haveValidToken){
