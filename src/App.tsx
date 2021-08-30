@@ -23,7 +23,7 @@ function App() {
   if (loggingIn) {
     api.start({to: { opacity: 0 },
       from: { opacity: 1 },
-      delay: 14500,
+      delay: 9500,
       config: config.molasses })
     }
 
@@ -34,12 +34,10 @@ function App() {
         <animated.div  style={springProps}>
           <Route exact path="/">
             <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}/>
-            {!loggingIn &&
-              <>
+              {!loggingIn &&
                 <LogoutButton/>
-                <Profile/>
-              </>
-            }
+              }
+              <Profile loggingIn={loggingIn} />
           </Route>
           <Route path="/stats">
             <RunningStats />
