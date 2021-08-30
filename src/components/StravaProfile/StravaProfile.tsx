@@ -21,7 +21,7 @@ const StravaProfile = (props: Props) => {
                     <p> Distance {distance.toFixed(1)} miles</p>
                     <p> Exercise time  {time.toFixed(1)} hours</p>
                     <p>  Elevation gain {elevation.toFixed(0)} feet</p>
-                    <p>  That is only {everests}% of the way up Everest!</p>
+                    <p>  That is only {everests.toFixed(1)}% of the way up Everest!</p>
             </div>
     )
 }
