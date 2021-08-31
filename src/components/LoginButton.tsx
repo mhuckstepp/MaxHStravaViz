@@ -12,21 +12,21 @@ const LoginButton = (props: Props) => {
     const { loggingIn, setLoggingIn } = props
     const delayedLogin = () => {
             setLoggingIn(true)
-            setTimeout(loginWithRedirect, 15000)
+            setTimeout(loginWithRedirect, 10000)
         }
 
     if (!isAuthenticated) {
     return (
         <>
         {!loggingIn && 
-        <button className="coolButton1" onClick={() => delayedLogin()}>
+        <button className="coolButton1" data-testid="LoginButton" onClick={() => delayedLogin()}>
             Login to the App
         </button>
         }
         <div style={loginBoxStyle}>
         <br></br>
         {loggingIn && (
-             <Step1Ani></Step1Ani>
+             <Step1Ani/>
         )}
         </div>
         </>

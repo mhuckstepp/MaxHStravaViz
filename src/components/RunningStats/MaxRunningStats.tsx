@@ -1,35 +1,14 @@
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
 import { apiClient, getStravaCodeFromParams, tokenClient } from '../../api'
+import { userInfoTemplate } from '../../assets/templateObjects'
+
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
     const [stravaError, setStravaError] = useState('')
     const [haveValidToken, setHaveValidToken] = useState(false)
-    const [userInfo, setUserInfo] = useState(
-        {
-            id: 0,
-            username: "",
-            resource_state: 0,
-            firstname: "",
-            lastname: "",
-            bio: "",
-            city: "",
-            state: "",
-            country: null,
-            sex: "M",
-            premium: true,
-            summit: true,
-            created_at: "",
-            updated_at: "",
-            badge_type_id: 0,
-            weight: 0,
-            profile_medium: "",
-            profile: "",
-            friend: null,
-            follower: null
-        }
-    )
+    const [userInfo, setUserInfo] = useState(userInfoTemplate)
     const [stravaData, setStravaData] = useState('')
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
     let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
@@ -95,7 +74,7 @@ const RunningStats = () => {
             <br></br>
             <p>That's it, that's all the App does :)</p>
             <br></br>
-            <img alt={userInfo.username} src={userInfo.profile} />
+            {userInfo.profile && <img alt={userInfo.username} src={userInfo.profile} />}
             <br></br>
             {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
             {stravaData && <JSONPretty data={stravaData}/>}

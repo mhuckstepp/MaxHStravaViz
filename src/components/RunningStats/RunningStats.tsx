@@ -33,6 +33,7 @@ const RunningStats = () => {
         }
     )
     const [stravaData, setStravaData] = useState({
+        gotResponse: false,
         recent_run_totals: {
             count: "",
             distance: '',
@@ -45,10 +46,12 @@ const RunningStats = () => {
     
     useEffect(() => {
         const params = getStravaCodeFromParams(window)
-        setStravaCode(params.code)
-        if (params.error){
-            setStravaError({message: params.error})
+        if (params.error || !params.code){
+            setStravaError({message: 'Sorry we are having trouble with the strava API right now :('})
+        } else{ 
+            setStravaCode(params.code)
         }
+        console.log('top run', params);
     }, [])
 
     useEffect(() => {
@@ -67,11 +70,11 @@ const RunningStats = () => {
                 setHaveValidToken(true)
                 localStorage.setItem('StravaAccessToken', response.data.access_token)
             }).catch(err => {
-                console.log(err)
-                setStravaError(err)
+                setStravaError({message: err})
+                setStravaData({...stravaData, gotResponse: true})
             })
         }
-    }, [stravaCode, stravaClientID, stravaSecret])
+    }, [stravaCode, stravaClientID, stravaSecret, stravaData])
     
     useEffect(() => {
         if (haveValidToken){
@@ -80,16 +83,17 @@ const RunningStats = () => {
                 method: "get"
             })
                 .then((response) => {
-                    setStravaData(response.data)
+                    setStravaData({...response.data, gotResponse: true})
                     console.log(response.data);
                 })
                 .catch((err) => {
+                    setStravaError({message: err})
                     throw err;
                 })
         }
     }, [haveValidToken, userInfo.id])
-
-    if(stravaError){
+    
+    if(stravaError.message.length){
         return (
         <div className='errContainer'>
             <div className='userCard'> 
@@ -100,15 +104,16 @@ const RunningStats = () => {
         )}
     
     return (
-        <div>
-            {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
-            {stravaData && 
-            <> 
-            <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
-            <p> See the JSON API response from Strava below </p>
-            <JSONPretty data={stravaData}/>
-            </>}
-        </div>
+        <>
+            {!stravaData.gotResponse && <div>Give us a second while we grab some of your workout data from Strava</div>}
+            {stravaData.gotResponse && 
+                <> 
+                <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
+                <p> See the JSON API response from Strava below </p>
+                <JSONPretty data={stravaData}/>
+                </>
+            }
+        </>
     )
 }
 export default RunningStats

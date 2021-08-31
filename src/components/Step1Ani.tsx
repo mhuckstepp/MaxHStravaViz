@@ -13,8 +13,8 @@ const Step1Ani = () => {
 
   return ( 
     <animated.div style={springProps} className='userCard'>
-    <p >{texts.step1}</p>
-    <ScaleLoader color='green' loading/>
+      <p >{texts.step1}</p>
+      <ScaleLoader color='green' loading/>
     </animated.div>
   )
 };
