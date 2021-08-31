@@ -20,14 +20,14 @@ const Profile = (props: any) => {
     }
 
     const sendToStrava = (hasStrava: boolean) => {
-        setStravaLogin(true)
-        setTimeout(() => {
-            if (hasStrava){
+        if (hasStrava){
+            setStravaLogin(true)
+            setTimeout(() => {
                 window.location.assign(authLink)
-            } else {
-                history.push("/maxstats")
-            }
-        }, 5000)
+            }, 5000)
+        } else {
+            history.push("/maxstats")
+        }
     }
 
     const bigButtonStyle = hasStrava === 1 ? "coolButton3" : "coolButton4"
