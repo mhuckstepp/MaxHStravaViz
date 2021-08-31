@@ -104,7 +104,7 @@ const RunningStats = () => {
         )}
     
     return (
-        <div>
+        <>
             {!stravaData.gotResponse && <div>Give us a second while we grab some of your workout data from Strava</div>}
             {stravaData.gotResponse && 
                 <> 
@@ -113,7 +113,7 @@ const RunningStats = () => {
                 <JSONPretty data={stravaData}/>
                 </>
             }
-        </div>
+        </>
     )
 }
 export default RunningStats

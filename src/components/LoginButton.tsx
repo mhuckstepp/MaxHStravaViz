@@ -12,7 +12,7 @@ const LoginButton = (props: Props) => {
     const { loggingIn, setLoggingIn } = props
     const delayedLogin = () => {
             setLoggingIn(true)
-            setTimeout(loginWithRedirect, 15000)
+            setTimeout(loginWithRedirect, 10000)
         }
 
     if (!isAuthenticated) {
