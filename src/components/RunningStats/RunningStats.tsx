@@ -2,7 +2,7 @@ import './RunningStats.css'
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
 import { apiClient, getStravaCodeFromParams, tokenClient } from '../../api'
-import StravaProfile from '../StravaProfile/StravaProfile'
+import StravaProfile from './StravaProfile/StravaProfile'
 
 const RunningStats = () => {
     const [stravaCode, setStravaCode] = useState('')
@@ -35,15 +35,21 @@ const RunningStats = () => {
     const [stravaData, setStravaData] = useState({
         gotResponse: false,
         recent_run_totals: {
-            count: "",
-            distance: '',
-            moving_time: '',
-            elevation_gain: ''
+            count: 0,
+            distance: 0,
+            moving_time: 0,
+            elevation_gain: 0
+        },
+        all_run_totals: {
+            count: 0,
+            distance: 0,
+            moving_time: 0,
+            elapsed_time: 0,
+            elevation_gain: 0,
         }
     })
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
     let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
-    console.log(userInfo);
     
     useEffect(() => {
         const params = getStravaCodeFromParams(window)

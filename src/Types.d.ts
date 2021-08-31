@@ -23,9 +23,16 @@ interface StravaUserInfo {
 
 interface StravaData {
     recent_run_totals: {
-        count: string,
-        distance: string,
-        moving_time: string,
-        elevation_gain: string
+        count: number,
+        distance: number,
+        moving_time: number,
+        elevation_gain: number
+    }
+    all_run_totals: {
+        count: number,
+        distance: number,
+        moving_time: number,
+        elapsed_time: number,
+        elevation_gain: number,
     }
 }

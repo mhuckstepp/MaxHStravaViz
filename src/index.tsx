@@ -1,6 +1,6 @@
 import './index.css'
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './components/App';
 import { Auth0Provider } from '@auth0/auth0-react'
 import { BrowserRouter as Router} from "react-router-dom";
 
