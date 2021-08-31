@@ -43,6 +43,7 @@ const RunningStats = () => {
     })
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
     let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
+    console.log(userInfo);
     
     useEffect(() => {
         const params = getStravaCodeFromParams(window)
@@ -71,10 +72,9 @@ const RunningStats = () => {
                 localStorage.setItem('StravaAccessToken', response.data.access_token)
             }).catch(err => {
                 setStravaError({message: err})
-                setStravaData({...stravaData, gotResponse: true})
             })
         }
-    }, [stravaCode, stravaClientID, stravaSecret, stravaData])
+    }, [stravaCode, stravaClientID, stravaSecret])
     
     useEffect(() => {
         if (haveValidToken){
@@ -108,7 +108,7 @@ const RunningStats = () => {
             {!stravaData.gotResponse && <div>Give us a second while we grab some of your workout data from Strava</div>}
             {stravaData.gotResponse && 
                 <> 
-                <StravaProfile userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
+                <StravaProfile isUsersProfile={true} userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
                 <p> See the JSON API response from Strava below </p>
                 <JSONPretty data={stravaData}/>
                 </>

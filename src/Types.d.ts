@@ -1,8 +1,8 @@
 interface StravaUserInfo {
     id: number,
-    username: string,
+    username: string | undefined,
     resource_state: number,
-    firstname: string,
+    firstname: string | undefined,
     lastname: string,
     bio: string,
     city: string,
