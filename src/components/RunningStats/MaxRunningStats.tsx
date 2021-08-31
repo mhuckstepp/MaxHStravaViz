@@ -1,47 +1,52 @@
 import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
-import { apiClient, getStravaCodeFromParams, tokenClient } from '../../api'
-import { userInfoTemplate } from '../../assets/templateObjects'
+import { apiClient, tokenClient } from '../../api'
+import { maxUserInfo } from '../../assets/templateObjects'
+import StravaProfile from '../StravaProfile/StravaProfile'
+import { useAuth0 } from '@auth0/auth0-react'
 
 
-const RunningStats = () => {
-    const [stravaCode, setStravaCode] = useState('')
-    const [stravaError, setStravaError] = useState('')
+
+const MaxRunningStats = () => {
+    const {user} = useAuth0()
+    console.log(user);
+    
+    const [stravaError, setStravaError] = useState({message: ''})
     const [haveValidToken, setHaveValidToken] = useState(false)
-    const [userInfo, setUserInfo] = useState(userInfoTemplate)
-    const [stravaData, setStravaData] = useState('')
+    const [stravaData, setStravaData] = useState({
+        gotResponse: false,
+        recent_run_totals: {
+            count: "",
+            distance: '',
+            moving_time: '',
+            elevation_gain: ''
+        }
+    })
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
     let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
-    
-    useEffect(() => {
-        const params = getStravaCodeFromParams(window)
-        setStravaCode(params.code)
-        if (params.error){
-            setStravaError(params.error)
-        }
-    }, [])
+    let refreshToken = process.env["REACT_APP_STRAVA_REFRESH_TOKEN"]
+    const userInfo = maxUserInfo
+    if (user){
+        userInfo.firstname = user.name || user.given_name || user.username || user.name
+    }
 
     useEffect(() => {
-        if (stravaCode){
             tokenClient({
                 url: "/token",
                 method: "post",
                 params: {
                     client_id: stravaClientID,
                     client_secret: stravaSecret,
-                    code: stravaCode,
-                    grant_type: "authorization_code"
+                    refresh_token: refreshToken,
+                    grant_type: "refresh_token"
                 }
             }).then(response => {
-                setUserInfo(response.data.athlete)
                 setHaveValidToken(true)
                 localStorage.setItem('StravaAccessToken', response.data.access_token)
             }).catch(err => {
-                console.log(err)
-                setStravaError(err)
+                setStravaError({message: err})
             })
-        }
-    }, [stravaCode, stravaClientID, stravaSecret])
+    }, [stravaClientID, stravaSecret, stravaData, refreshToken])
     
     useEffect(() => {
         if (haveValidToken){
@@ -53,33 +58,33 @@ const RunningStats = () => {
                     setStravaData(response.data)
                 })
                 .catch((err) => {
+                    setStravaError({message: err})
                     throw err;
                 })
         }
     }, [haveValidToken, userInfo.id])
 
-    if(stravaError){
-        return <div> <JSONPretty data={stravaError}/> </div>
-    }
+    if(stravaError.message.length){
+        return (
+        <div className='errContainer'>
+            <div className='userCard'> 
+                <span> Sorry we had a problem - go back to <a href='https://maxrunmax.xyz'> maxrunmax.xyz</a> and start over if you would like to try again </span>
+            </div>
+            <JSONPretty data={stravaError.message}/> 
+        </div>
+        )}
 
     if (!userInfo){
         return <div>Loading up your Strava Data...Give us a minute</div>
     }
     
     return (
-        <div>
-            <h2>Hello {userInfo.firstname}</h2>
-            <br></br>
-            <h4>Thanks for checking out your Strava info with us.</h4>
-            <br></br>
-            <p>That's it, that's all the App does :)</p>
-            <br></br>
-            {userInfo.profile && <img alt={userInfo.username} src={userInfo.profile} />}
-            <br></br>
-            {!stravaData && <div>Give us a second while we grab some of your workout data from Strava</div>}
-            {stravaData && <JSONPretty data={stravaData}/>}
-        </div>
+        <>
+        <StravaProfile isUsersProfile={false} userInfo={userInfo} stravaData={stravaData} ></StravaProfile>
+                <p> See the JSON API response from Strava below </p>
+                <JSONPretty data={stravaData}/>
+        </>
     )
 }
 
-export default RunningStats
+export default MaxRunningStats

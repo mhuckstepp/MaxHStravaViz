@@ -3,10 +3,11 @@ import { FaMountain, FaRegClock, FaArrowUp, FaRulerHorizontal, FaRunning } from 
 interface Props {
   stravaData: StravaData;
   userInfo: StravaUserInfo;
+  isUsersProfile: boolean;
 }
 
 const StravaProfile = (props: Props) => {
-  const { userInfo, stravaData } = props;
+  const { isUsersProfile, userInfo, stravaData } = props;
 
   let distance: number =
     Number(stravaData.recent_run_totals.distance) / 1609.34;
@@ -18,6 +19,7 @@ const StravaProfile = (props: Props) => {
   return (
     <div className="strava-profile">
       <h1>Hello {userInfo?.firstname || userInfo?.username}</h1>
+      {!isUsersProfile ? <h2> See Max's stats below </h2> : null}
       <img alt="prof pic" src={userInfo.profile} />
       <h2> Runs in the last 4 weeks </h2>
       <p><FaRunning size={26} /> {stravaData.recent_run_totals.count} runs</p>

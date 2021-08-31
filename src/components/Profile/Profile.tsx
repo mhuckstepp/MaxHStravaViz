@@ -5,9 +5,12 @@ import { useState } from 'react'
 import { texts } from '../../assets/text';
 import JSONPretty from 'react-json-pretty';
 import Step2Ani from "./Step2Ani";
+import { useHistory } from "react-router-dom";
+
 
 const Profile = (props: any) => {
     const {user, isAuthenticated} = useAuth0()
+    let history = useHistory();
     const { loggingIn } = props
     const [hasStrava, setHasStrava] = useState(0)
     const [stravaLogin, setStravaLogin] = useState(false)
@@ -22,7 +25,7 @@ const Profile = (props: any) => {
             if (hasStrava){
                 window.location.assign(authLink)
             } else {
-                window.location.assign(authLink)
+                history.push("/maxstats")
             }
         }, 5000)
     }
