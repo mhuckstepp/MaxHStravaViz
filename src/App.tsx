@@ -10,6 +10,7 @@ import { useSpring, animated, config } from 'react-spring'
 import { ScaleLoader } from 'react-spinners'
 
 
+
 function App() {
   const { isLoading } = useAuth0();
   const [loggingIn, setLoggingIn] = useState(false)
@@ -19,7 +20,7 @@ function App() {
      from: { opacity: 0 },
      config: config.molasses 
     }))
-
+  
   if (loggingIn) {
     api.start({to: { opacity: 0 },
       from: { opacity: 1 },
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className="App" data-testid="App">
+      
       {isLoading && <ScaleLoader color='orange' loading/>}
       {!isLoading && (
         <animated.div  style={springProps}>
