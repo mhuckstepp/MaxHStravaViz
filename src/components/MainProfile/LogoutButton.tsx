@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import './MainProfile/Profile.css'
+import './Profile.css'
 
 
 const LogoutButton = () => {
