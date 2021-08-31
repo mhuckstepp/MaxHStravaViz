@@ -2,7 +2,7 @@ import React from "react";
 import { useSpring, animated, config } from "react-spring";
 import { texts } from "../assets/text";
 import { ScaleLoader } from 'react-spinners'
-import './Profile/Profile.css'
+import './MainProfile/Profile.css'
 
 const Step1Ani = () => {
   const springProps = useSpring({

@@ -4,11 +4,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
 import { ScaleLoader } from 'react-spinners'
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
-import Profile from "./components/Profile/Profile";
-import RunningStats from "./components/RunningStats/RunningStats";
-import MaxRunningStats from "./components/RunningStats/MaxRunningStats";
+import LoginButton from "./MainProfile/LoginButton";
+import LogoutButton from "./MainProfile/LogoutButton";
+import Profile from "./MainProfile/Profile";
+import RunningStats from "./RunningStats/RunningStats";
+import MaxRunningStats from "./RunningStats/MaxRunningStats";
 
 
 

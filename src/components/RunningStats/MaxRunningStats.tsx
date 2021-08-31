@@ -2,24 +2,27 @@ import { useState, useEffect} from 'react'
 import JSONPretty from 'react-json-pretty'
 import { apiClient, tokenClient } from '../../api'
 import { maxUserInfo } from '../../assets/templateObjects'
-import StravaProfile from '../StravaProfile/StravaProfile'
+import StravaProfile from './StravaProfile/StravaProfile'
 import { useAuth0 } from '@auth0/auth0-react'
 
-
-
 const MaxRunningStats = () => {
-    const {user} = useAuth0()
-    console.log(user);
-    
+    const {user} = useAuth0()    
     const [stravaError, setStravaError] = useState({message: ''})
     const [haveValidToken, setHaveValidToken] = useState(false)
     const [stravaData, setStravaData] = useState({
         gotResponse: false,
         recent_run_totals: {
-            count: "",
-            distance: '',
-            moving_time: '',
-            elevation_gain: ''
+            count: 0,
+            distance: 0,
+            moving_time: 0,
+            elevation_gain: 0
+        },
+        all_run_totals: {
+            count: 0,
+            distance: 0,
+            moving_time: 0,
+            elapsed_time: 0,
+            elevation_gain: 0,
         }
     })
     let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
@@ -42,6 +45,7 @@ const MaxRunningStats = () => {
                 }
             }).then(response => {
                 setHaveValidToken(true)
+                console.log(response);
                 localStorage.setItem('StravaAccessToken', response.data.access_token)
             }).catch(err => {
                 setStravaError({message: err})

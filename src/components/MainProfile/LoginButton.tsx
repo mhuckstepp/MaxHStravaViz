@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import Step1Ani from "./Step1Ani"
-import './Profile/Profile.css'
+import Step1Ani from "../Step1Ani"
+import './Profile.css'
 
 interface Props {
     loggingIn: boolean,
