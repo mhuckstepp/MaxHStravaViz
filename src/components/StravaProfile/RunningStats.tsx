@@ -36,13 +36,11 @@ const RunningStats = () => {
         } else{ 
             setStravaCode(params.code)
         }
-        console.log('top run', params);
     }, [])
 
     useEffect(() => {
         if (stravaCode){
             tokenClient({
-                url: "/token",
                 method: "post",
                 params: {
                     client_id: stravaClientID,
