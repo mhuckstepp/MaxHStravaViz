@@ -19,7 +19,6 @@ export const fetchMaxData = () => {
       if(response.data && response.data.access_token){
           localStorage.setItem('StravaAccessToken', response.data.access_token)
           dispatch(setValidTokenStatus(true))
-          console.log(response)
           fetchStravaData(dispatch)
       } else {
           dispatch(setStravaError('Sorry we had trouble getting the access token'))
@@ -29,8 +28,6 @@ export const fetchMaxData = () => {
 }
 
 const fetchStravaData = async (dispatch) => {
-  console.log('run top fetchData')
-    console.log('run middle fetchData')
     const response = await apiClient({
     url: `/athletes/20352663/stats`,
     method: "get"
