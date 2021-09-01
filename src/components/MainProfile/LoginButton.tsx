@@ -1,17 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import Step1Ani from "../Step1Ani"
+import { RootState } from "../../store/store"
 import './Profile.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../MainProfile/mainSlice'
+import Step1Ani from "../Step1Ani"
 
-interface Props {
-    loggingIn: boolean,
-    setLoggingIn: Function
-}
 
-const LoginButton = (props: Props) => {
+const LoginButton = () => {
     const { loginWithRedirect, isAuthenticated } = useAuth0()
-    const { loggingIn, setLoggingIn } = props
+    const  loggingIn  = useSelector((state: RootState) => state.main.loggingIn)
+    const dispatch = useDispatch()
     const delayedLogin = () => {
-            setLoggingIn(true)
+            dispatch(login())
             setTimeout(loginWithRedirect, 10000)
         }
 

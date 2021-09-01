@@ -22,6 +22,7 @@ interface StravaUserInfo {
 }
 
 interface StravaData {
+    gotResponse: boolean,
     recent_run_totals: {
         count: number,
         distance: number,

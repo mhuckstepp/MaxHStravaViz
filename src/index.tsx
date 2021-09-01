@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import { Auth0Provider } from '@auth0/auth0-react'
 import { BrowserRouter as Router} from "react-router-dom";
+import { store } from './store/store'
+import { Provider } from 'react-redux'
 
 let domain: string
 let clientID: string
@@ -21,7 +23,9 @@ ReactDOM.render(
       clientId={clientID}
       redirectUri={window.location.origin}>
         <Router>
+          <Provider store={store}>
             <App />
+          </Provider>
         </Router>
       </Auth0Provider>,
   document.getElementById('root')

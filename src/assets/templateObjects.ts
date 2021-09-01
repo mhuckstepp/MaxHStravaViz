@@ -44,5 +44,22 @@ const maxUserInfo: StravaUserInfo = {
   follower: null,
 }
 
+const stravaDataTemplate: StravaData  = {
+  gotResponse: false,
+  recent_run_totals: {
+      count: 0,
+      distance: 0,
+      moving_time: 0,
+      elevation_gain: 0
+  },
+  all_run_totals: {
+      count: 0,
+      distance: 0,
+      moving_time: 0,
+      elapsed_time: 0,
+      elevation_gain: 0,
+  }
+}
 
-export {userInfoTemplate, maxUserInfo}
+
+export {userInfoTemplate, maxUserInfo, stravaDataTemplate}

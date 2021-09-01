@@ -1,27 +1,28 @@
 import "./Profile.css";
+import { RootState } from '../../store/store'
+import { useSelector, useDispatch } from 'react-redux'
 import { useAuth0 } from '@auth0/auth0-react'
+import { stravaLogin, setStravaStatus } from './mainSlice'
 import { authLink } from "../../api";
-import { useState } from 'react'
 import { texts } from '../../assets/text';
 import JSONPretty from 'react-json-pretty';
 import Step2Ani from "./Step2Ani";
 import { useHistory } from "react-router-dom";
 
 
-const Profile = (props: any) => {
+const Profile = () => {
     const {user, isAuthenticated} = useAuth0()
     let history = useHistory();
-    const { loggingIn } = props
-    const [hasStrava, setHasStrava] = useState(0)
-    const [stravaLogin, setStravaLogin] = useState(false)
+    const dispatch = useDispatch()
+    const  { loggingIn, hasStrava, stravaLoggingIn }  = useSelector((state: RootState) => state.main)
 
     const clickHasStrava = (doesHave: number) => {
-        setHasStrava(doesHave)
+        dispatch(setStravaStatus(doesHave))
     }
 
-    const sendToStrava = (hasStrava: boolean) => {
-        if (hasStrava){
-            setStravaLogin(true)
+    const sendToStrava = () => {
+        if (hasStrava === 1){
+            dispatch(stravaLogin())
             setTimeout(() => {
                 window.location.assign(authLink)
             }, 5000)
@@ -36,7 +37,7 @@ const Profile = (props: any) => {
         return null
     }
 
-    if (isAuthenticated && user && !stravaLogin) {
+    if (isAuthenticated && user && !stravaLoggingIn) {
         return (
             <div className='userCard'>
                 <div className='userText'> 
@@ -51,13 +52,13 @@ const Profile = (props: any) => {
                     <button className='coolButton1' onClick={() => clickHasStrava(1)}> Yes </button>
                     <button className='coolButton2' onClick={() => clickHasStrava(2)}> No </button>
                 </div>
-                {hasStrava === 1 && <button className={bigButtonStyle} onClick={() => sendToStrava(true)}> Grab and display your Strava data </button>}
-                {hasStrava === 2 && <button  className={bigButtonStyle}  onClick={() => sendToStrava(false)}> Grab and display Max's Strava Data </button>}
+                {hasStrava === 1 && <button className={bigButtonStyle} onClick={() => sendToStrava()}> Grab and display your Strava data </button>}
+                {hasStrava === 2 && <button  className={bigButtonStyle}  onClick={() => sendToStrava()}> Grab and display Max's Strava Data </button>}
             </div>
         )
     }
 
-    if (stravaLogin) {
+    if (stravaLoggingIn) {
         return <Step2Ani />
     }
     

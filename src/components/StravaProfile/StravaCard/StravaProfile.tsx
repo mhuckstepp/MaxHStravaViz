@@ -21,7 +21,7 @@ const StravaProfile = (props: Props) => {
   let everests: number = elevation / 290.32;
 
   let allDistance: number = stravaData.all_run_totals.distance / 1609.34;
-  let allTime: number = stravaData.all_run_totals.moving_time / 3600;
+  let allTime: number = stravaData.all_run_totals.moving_time / 3600 / 24;
   let allElevation: number = stravaData.all_run_totals.elevation_gain * 3.28084;
   let allEverests: number = allElevation / 29032;
 
@@ -61,7 +61,7 @@ const StravaProfile = (props: Props) => {
       </p>
       <p>
         {" "}
-        <FaRegClock size={26} /> Exercise time {allTime.toFixed(1)} hours
+        <FaRegClock size={26} /> Exercise time {allTime.toFixed(1)} days
       </p>
       <p>
         {" "}

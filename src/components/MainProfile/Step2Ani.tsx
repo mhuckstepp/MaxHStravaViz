@@ -13,7 +13,7 @@ const Step2Ani = () => {
 
   api.start({to: { opacity: 0 },
       from: { opacity: 1 },
-      delay: 4500,
+      delay: 4000,
       config: config.molasses })
 
   return ( 

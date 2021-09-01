@@ -1,5 +1,6 @@
 import "./App.css";
-import { useState } from 'react'
+import { RootState } from "../store/store"
+import { useSelector } from 'react-redux'
 import { useAuth0 } from "@auth0/auth0-react";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
@@ -7,15 +8,15 @@ import { ScaleLoader } from 'react-spinners'
 import LoginButton from "./MainProfile/LoginButton";
 import LogoutButton from "./MainProfile/LogoutButton";
 import Profile from "./MainProfile/Profile";
-import RunningStats from "./RunningStats/RunningStats";
-import MaxRunningStats from "./RunningStats/MaxRunningStats";
+import RunningStats from "./StravaProfile/RunningStats";
+import MaxRunningStats from "./StravaProfile/MaxRunningStats";
 
 
 
 function App() {
   const { isLoading } = useAuth0();
-  const [loggingIn, setLoggingIn] = useState(false)
-  
+  const  loggingIn  = useSelector((state: RootState) => state.main.loggingIn)
+
   const [springProps, api] = useSpring(() => ({
      to: { opacity: 1 },
      from: { opacity: 0 },
@@ -36,11 +37,11 @@ function App() {
       {!isLoading && (
         <animated.div  style={springProps}>
           <Route exact path="/">
-            <LoginButton loggingIn={loggingIn} setLoggingIn={setLoggingIn}/>
+            <LoginButton />
               {!loggingIn &&
                 <LogoutButton/>
               }
-              <Profile loggingIn={loggingIn} />
+              <Profile />
           </Route>
           <Route path="/stats">
             <RunningStats />

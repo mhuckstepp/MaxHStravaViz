@@ -12,7 +12,8 @@ export const getStravaCodeFromParams = (window: any) => {
     }   
 
 export const tokenClient = axios.create({
-    baseURL: "https://www.strava.com/oauth",
+    baseURL: "https://www.strava.com/oauth/token",
+    method: "post",
     timeout: 3000
 });
 
