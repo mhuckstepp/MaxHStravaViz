@@ -2,6 +2,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 import { useAuth0 } from "@auth0/auth0-react"
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '../store/store'
 
 
 const user = {
@@ -27,7 +29,7 @@ describe("Loading screen if loading", () => {
   });
   
   test('Renders Loading on page load', async () => {
-    render(<App />);
+    render(<Provider store={store}><App /></Provider>);
     const appContainer = screen.getByTestId(/App/i);
     expect(appContainer).toBeInTheDocument();
     const logoutButton = screen.queryByTestId(/LogoutButton/i);
@@ -52,7 +54,7 @@ describe("User displayed on sign in", () => {
   });
   
   test('renders info when logged in', async () => {
-    render(<Router> <App /> </Router>);
+    render(<Router> <Provider store={store}><App /></Provider> </Router>);
     const userName = screen.getAllByText(/johndoe@me.com/i);
     expect(userName[0]).toBeInTheDocument();
     const logoutButton = screen.getByTestId(/LogoutButton/i);
@@ -78,7 +80,7 @@ describe("Logged out page", () => {
   });
   
   test('Renders login button when logged out and no logout button', async () => {
-    render(<Router> <App /> </Router>);
+    render(<Router> <Provider store={store}><App /></Provider> </Router>);
     const loginButton = screen.getByTestId(/LoginButton/i);
     expect(loginButton).toBeInTheDocument();
     const logoutButton = screen.queryByTestId(/LogoutButton/i);
@@ -86,7 +88,7 @@ describe("Logged out page", () => {
   });
 
   test('Clicking login renders new screen', async () => {
-    render(<Router> <App /> </Router>);
+    render(<Router> <Provider store={store}><App /></Provider> </Router>);
     const loginButton = screen.getByTestId(/LoginButton/i);
     await fireEvent.click(loginButton)
     const text = screen.getByText(/We are directing you/i)
