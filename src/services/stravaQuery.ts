@@ -1,17 +1,16 @@
-import {tokenClient, apiClient} from '../api/index'
-import { setLoading, setStravaError, setStravaData, setUserInfo} from '../components/StravaProfile/stravaSlice'
+import {tokenClient, apiClient, maxClient} from '../api/index'
+import { setLoading, setStravaError, setStravaData, setUserInfo, setMaxValidToken, setStravaValidToken} from '../components/StravaProfile/stravaSlice'
 import { Dispatch } from 'redux';
 
 let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
 let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
 let refreshToken = process.env["REACT_APP_STRAVA_REFRESH_TOKEN"]
 
-export const fetchUserData = (window: any) => {
+export const fetchUserTokens = (window: any) => {
   return async (dispatch: Dispatch<any>) => {
     dispatch(setLoading(true))
     const urlSearchParams = new URLSearchParams(window.location.search);
     const stravaCode = Object.fromEntries(urlSearchParams.entries())
-    console.log('stravacode', stravaCode)
     if (stravaCode.error || !stravaCode.code){
       dispatch(setStravaError('Sorry we had trouble getting the user token'))
       dispatch(setLoading(false))
@@ -28,6 +27,7 @@ export const fetchUserData = (window: any) => {
             }
           })
           await localStorage.setItem('StravaAccessToken', tokenResponse.data.access_token)
+          await localStorage.setItem('StravaAccessExpiration', tokenResponse.data.expires_at)
           dispatch(setUserInfo(tokenResponse.data.athlete))
           fetchStravaData(dispatch, tokenResponse.data.athlete.id)
       } catch {
@@ -37,7 +37,7 @@ export const fetchUserData = (window: any) => {
     }
   }  
 
-export const fetchMaxData = () => {
+export const fetchMaxTokens = () => {
   return async (dispatch: Dispatch<any>) => {
     dispatch(setLoading(true))
     try {
@@ -49,8 +49,19 @@ export const fetchMaxData = () => {
           grant_type: "refresh_token"
       }
     })
-    localStorage.setItem('StravaAccessToken', response.data.access_token)
-    fetchStravaData(dispatch, 20352663)
+    await localStorage.setItem('MaxAccessToken', response.data.access_token)
+    await localStorage.setItem('MaxAccessExpiration', response.data.expires_at)
+        try{
+          const response = await maxClient({
+            url: `/athletes/20352663/stats`,
+            method: "get"
+          })
+          dispatch(setLoading(false))
+          dispatch(setStravaData({...response.data, gotResponse: true }))
+      }  catch {
+        dispatch(setStravaError('Sorry we had trouble getting the user data'))
+        throw Error;
+      }
     } catch {
       dispatch(setStravaError('Sorry we had trouble getting the user data'))
       dispatch(setLoading(false))
@@ -58,7 +69,8 @@ export const fetchMaxData = () => {
       }
   }
 
-const fetchStravaData = async (dispatch: Dispatch<any>, userId: Number) => {
+export const fetchStravaData = async (dispatch: Dispatch<any>, userId: Number) => {
+  dispatch(setLoading(true))
   try{
         const response = await apiClient({
           url: `/athletes/${userId}/stats`,
@@ -69,6 +81,42 @@ const fetchStravaData = async (dispatch: Dispatch<any>, userId: Number) => {
 
     }  catch {
     dispatch(setStravaError('Sorry we had trouble getting the user data'))
+    dispatch(setLoading(true))
     throw Error;
     }
 }
+
+export const fetchMaxData = () => {
+  return async (dispatch: Dispatch<any>) => {
+    dispatch(setLoading(true))
+        try{
+          const response = await maxClient({
+            url: `/athletes/20352663/stats`,
+            method: "get"
+          })
+          dispatch(setLoading(false))
+          dispatch(setStravaData({...response.data, gotResponse: true }))
+      }  catch {
+        dispatch(setStravaError('Sorry we had trouble getting the user data'))
+        throw Error;
+      }
+    } 
+  }
+
+  export const checkValidTokens = () => {
+    return async (dispatch: Dispatch<any>) => {
+      console.log('run in stravquery');
+      
+      let currTime = Number(Date.now().toString().slice(0, 10))
+      const maxExpirationTime = Number(localStorage.getItem('MaxAccessExpiration'))
+      const maxLastAccessToken = localStorage.getItem('MaxAccessToken')
+      if (currTime < maxExpirationTime && maxLastAccessToken){
+            dispatch(setMaxValidToken())
+      }
+      const stravaExpirationTime = Number(localStorage.getItem('StravaAccessExpiration'))
+      const stravaLastAccessToken = localStorage.getItem('StravaAccessToken')
+      if (currTime < stravaExpirationTime && stravaLastAccessToken){
+        dispatch(setStravaValidToken())
+  }
+    }
+  }

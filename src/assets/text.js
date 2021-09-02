@@ -3,6 +3,6 @@ export const texts = {
 
     step2:  "If you are seeing this, it means you are logged in. A third party service named Auth0 is managing this using JWT tokens stored securely in your browser. This allows our application to authenticate you and get some basic information without managing you data or passwords. ",
     
-    step3:  "Now, we are sending you over to Strava so you can tell them it is okay to give us access to your Strava data"
+    step3:  "Now, we are sending you over to Strava so you can tell them it is okay to give us access to your data"
 
 }

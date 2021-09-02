@@ -7,7 +7,9 @@ export interface stravaState {
     },
     userInfo: StravaUserInfo,
     stravaData: StravaData,
-    loadingStravaData: boolean
+    loadingStravaData: boolean,
+    maxValidToken: boolean,
+    stravaValidToken: boolean
   }
 
 
@@ -15,7 +17,9 @@ const initialState: stravaState = {
     stravaError: {message: ''},
     userInfo: userInfoTemplate,
     stravaData: stravaDataTemplate,
-    loadingStravaData: false
+    loadingStravaData: false,
+    maxValidToken: false,
+    stravaValidToken: false
   }
 
 
@@ -35,8 +39,14 @@ const initialState: stravaState = {
       setLoading: (state, action: PayloadAction<boolean>) => {
         state.loadingStravaData = action.payload
       },
+      setMaxValidToken: (state) => {
+        state.maxValidToken = true
+      },
+      setStravaValidToken: (state) => {
+        state.stravaValidToken = true
+      },
     },
   })
 
-  export const { setLoading, setStravaError, setUserInfo, setStravaData  } = stravaSlice.actions
+  export const { setLoading, setStravaError, setUserInfo, setStravaData, setStravaValidToken, setMaxValidToken  } = stravaSlice.actions
   export default stravaSlice.reducer

@@ -3,7 +3,7 @@ import { RootState } from "../../store/store"
 import { useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import JSONPretty from 'react-json-pretty'
-import { fetchUserData } from '../../services/stravaQuery'
+import { fetchUserTokens } from '../../services/stravaQuery'
 import StravaProfile from './StravaCard/StravaProfile'
 
 
@@ -12,7 +12,7 @@ const RunningStats = () => {
     const {stravaError, stravaData, loadingStravaData, userInfo}  = useSelector((state: RootState) => state.strava)
 
     useEffect(() => {
-        dispatch(fetchUserData(window))
+        dispatch(fetchUserTokens(window))
     }, [dispatch])
 
     if(stravaError.message.length){

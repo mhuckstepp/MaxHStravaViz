@@ -35,4 +35,25 @@ apiClient.interceptors.request.use(
     }
 );
 
-export { apiClient };
+const maxClient = axios.create({
+    baseURL: "https://www.strava.com/api/v3",
+    timeout: 3000
+});
+
+maxClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("MaxAccessToken");
+
+        if (token) {
+            // eslint-disable-next-line no-param-reassign
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        Promise.reject(error);
+    }
+);
+
+export { apiClient, maxClient };
