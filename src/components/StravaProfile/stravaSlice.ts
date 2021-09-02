@@ -4,7 +4,7 @@ import { stravaDataTemplate, userInfoTemplate } from '../../assets/templateObjec
 export interface stravaState {
     stravaCode: string,
     stravaError: {
-      message: string
+      message: string 
     },
     haveValidToken: boolean,
     userInfo: StravaUserInfo,
