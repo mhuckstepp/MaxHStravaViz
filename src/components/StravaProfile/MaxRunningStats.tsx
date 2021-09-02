@@ -21,8 +21,6 @@ const MaxRunningStats = () => {
         userInfo.firstname = user.name || user.given_name || user.username || user.name
     }
 
-
-
     if(stravaError.message.length){
         return (
         <div className='errContainer'>
