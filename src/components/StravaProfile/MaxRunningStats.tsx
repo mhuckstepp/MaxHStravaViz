@@ -2,7 +2,7 @@ import { useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from "../../store/store"
 import JSONPretty from 'react-json-pretty'
-import { fetchMaxData } from "../../services/stravaQuery";
+import { fetchMaxData, fetchMaxTokens } from "../../services/stravaQuery";
 import { maxUserInfo } from '../../assets/templateObjects'
 import StravaProfile from './StravaCard/StravaProfile'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -10,18 +10,20 @@ import { useAuth0 } from '@auth0/auth0-react'
 const MaxRunningStats = () => {
     const {user} = useAuth0()    
     const dispatch = useDispatch()
-    const {stravaError, stravaData, loadingStravaData}  = useSelector((state: RootState) => state.strava)
+    const {stravaError, stravaData, loadingStravaData, maxValidToken}  = useSelector((state: RootState) => state.strava)
   
     useEffect(() => {
-      dispatch(fetchMaxData())
-    }, [dispatch])
+        if (maxValidToken){
+            dispatch(fetchMaxData())
+        } else {
+            dispatch(fetchMaxTokens())
+        }
+    }, [maxValidToken, dispatch])
 
     const userInfo = maxUserInfo
     if (user){
         userInfo.firstname = user.name || user.given_name || user.username || user.name
     }
-
-
 
     if(stravaError.message.length){
         return (

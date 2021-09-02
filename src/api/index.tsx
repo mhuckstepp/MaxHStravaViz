@@ -6,10 +6,7 @@ let strava_Redirect = process.env["REACT_APP_STRAVA_REDIRECT_URI"]
 
 export const authLink = `https://www.strava.com/oauth/authorize?client_id=${stravaClientID}&redirect_uri=${strava_Redirect}&response_type=code&scope=read`
 
-export const getStravaCodeFromParams = (window: any) => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    return Object.fromEntries(urlSearchParams.entries())
-    }   
+
 
 export const tokenClient = axios.create({
     baseURL: "https://www.strava.com/oauth/token",
@@ -38,4 +35,25 @@ apiClient.interceptors.request.use(
     }
 );
 
-export { apiClient };
+const maxClient = axios.create({
+    baseURL: "https://www.strava.com/api/v3",
+    timeout: 3000
+});
+
+maxClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("MaxAccessToken");
+
+        if (token) {
+            // eslint-disable-next-line no-param-reassign
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        Promise.reject(error);
+    }
+);
+
+export { apiClient, maxClient };

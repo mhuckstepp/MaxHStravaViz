@@ -2,24 +2,24 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { stravaDataTemplate, userInfoTemplate } from '../../assets/templateObjects'
 
 export interface stravaState {
-    stravaCode: string,
     stravaError: {
-      message: string
+      message: string 
     },
-    haveValidToken: boolean,
     userInfo: StravaUserInfo,
     stravaData: StravaData,
-    loadingStravaData: boolean
+    loadingStravaData: boolean,
+    maxValidToken: boolean,
+    stravaValidToken: boolean
   }
 
 
 const initialState: stravaState = {
-    stravaCode: '',
     stravaError: {message: ''},
-    haveValidToken: false,
     userInfo: userInfoTemplate,
     stravaData: stravaDataTemplate,
-    loadingStravaData: false
+    loadingStravaData: false,
+    maxValidToken: false,
+    stravaValidToken: false
   }
 
 
@@ -27,14 +27,8 @@ const initialState: stravaState = {
     name: 'strava',
     initialState,
     reducers: {
-      setStravaCode: (state, action: PayloadAction<string>) => {
-        state.stravaCode = action.payload
-      },
       setStravaError: (state, action: PayloadAction<string>) => {
         state.stravaError.message = action.payload
-      },
-      setValidTokenStatus: (state, action: PayloadAction<boolean>) => {
-        state.haveValidToken = action.payload
       },
       setUserInfo: (state, action: PayloadAction<StravaUserInfo>) => {
         state.userInfo = action.payload
@@ -45,8 +39,14 @@ const initialState: stravaState = {
       setLoading: (state, action: PayloadAction<boolean>) => {
         state.loadingStravaData = action.payload
       },
+      setMaxValidToken: (state) => {
+        state.maxValidToken = true
+      },
+      setStravaValidToken: (state) => {
+        state.stravaValidToken = true
+      },
     },
   })
 
-  export const { setLoading, setStravaCode, setStravaError, setValidTokenStatus, setUserInfo, setStravaData  } = stravaSlice.actions
+  export const { setLoading, setStravaError, setUserInfo, setStravaData, setStravaValidToken, setMaxValidToken  } = stravaSlice.actions
   export default stravaSlice.reducer

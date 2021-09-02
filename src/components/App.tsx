@@ -1,6 +1,6 @@
 import "./App.css";
 import { RootState } from "../store/store"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useAuth0 } from "@auth0/auth0-react";
 import { Route } from "react-router-dom";
 import { useSpring, animated, config } from 'react-spring'
@@ -10,12 +10,20 @@ import LogoutButton from "./MainProfile/LogoutButton";
 import Profile from "./MainProfile/Profile";
 import RunningStats from "./StravaProfile/RunningStats";
 import MaxRunningStats from "./StravaProfile/MaxRunningStats";
+import { useEffect } from "react";
+import { checkValidTokens } from "../services/stravaQuery";
 
 
 
 function App() {
   const { isLoading } = useAuth0();
   const  loggingIn  = useSelector((state: RootState) => state.main.loggingIn)
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(checkValidTokens())
+    console.log('run in app');
+  }, [dispatch])
 
   const [springProps, api] = useSpring(() => ({
      to: { opacity: 1 },
