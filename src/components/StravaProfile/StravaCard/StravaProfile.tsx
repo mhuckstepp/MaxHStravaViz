@@ -25,11 +25,13 @@ const StravaProfile = (props: Props) => {
   let allElevation: number = stravaData.all_run_totals.elevation_gain * 3.28084;
   let allEverests: number = allElevation / 29032;
 
+  const altPic = localStorage.getItem('StravaPic') || undefined
+
   return (
     <div className="strava-profile">
       <h1>Hello {userInfo?.firstname || userInfo?.username}</h1>
       {!isUsersProfile ? <h2> See Max's stats below </h2> : null}
-      <img alt="prof pic" src={userInfo.profile} />
+      <img alt="prof pic" src={userInfo.profile || altPic} />
       <h2> Runs in the last 4 weeks </h2>
       <p>
         <FaRunning size={26} /> {stravaData.recent_run_totals.count} runs

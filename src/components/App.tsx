@@ -22,7 +22,6 @@ function App() {
   
   useEffect(() => {
     dispatch(checkValidTokens())
-    console.log('run in app');
   }, [dispatch])
 
   const [springProps, api] = useSpring(() => ({

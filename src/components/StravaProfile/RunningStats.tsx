@@ -1,19 +1,31 @@
 import './RunningStats.css'
 import { RootState } from "../../store/store"
-import { useEffect} from 'react'
+import { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import JSONPretty from 'react-json-pretty'
-import { fetchUserTokens } from '../../services/stravaQuery'
+import { fetchUserTokens, fetchStravaData, checkValidTokens } from '../../services/stravaQuery'
 import StravaProfile from './StravaCard/StravaProfile'
 
 
 const RunningStats = () => {
     const dispatch = useDispatch()
-    const {stravaError, stravaData, loadingStravaData, userInfo}  = useSelector((state: RootState) => state.strava)
+    const {stravaError, stravaData, loadingStravaData, userInfo, stravaValidToken}  = useSelector((state: RootState) => state.strava)
+    const [validTokenCheck, setValidTokenCheck] = useState(false)
+    
+    useEffect(() => {
+        dispatch(checkValidTokens())
+        setValidTokenCheck(true)
+      }, [dispatch])
 
     useEffect(() => {
-        dispatch(fetchUserTokens(window))
-    }, [dispatch])
+        if (validTokenCheck) {
+            if (stravaValidToken){
+                dispatch(fetchStravaData())
+            } else {
+                dispatch(fetchUserTokens(window))
+            }
+        }
+    }, [dispatch, validTokenCheck, stravaValidToken]);
 
     if(stravaError.message.length){
         return (

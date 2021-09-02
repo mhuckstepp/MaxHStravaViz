@@ -18,7 +18,7 @@ interface StravaUserInfo {
     badge_type_id: number,
     weight: number,
     profile_medium: string,
-    profile: string,
+    profile: string | undefined,
     friend: null,
     follower: null
 }
