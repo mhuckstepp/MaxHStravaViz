@@ -26,10 +26,23 @@ export const fetchUserTokens = (window: any) => {
                 grant_type: "authorization_code"
             }
           })
+          console.log(tokenResponse.data);
           await localStorage.setItem('StravaAccessToken', tokenResponse.data.access_token)
           await localStorage.setItem('StravaAccessExpiration', tokenResponse.data.expires_at)
+          await localStorage.setItem('StravaID', tokenResponse.data.athlete.id)
+          await localStorage.setItem('StravaPic', tokenResponse.data.athlete.profile)
           dispatch(setUserInfo(tokenResponse.data.athlete))
-          fetchStravaData(dispatch, tokenResponse.data.athlete.id)
+          try{
+            const response = await apiClient({
+              url: `/athletes/${tokenResponse.data.athlete.id}/stats`,
+              method: "get"
+            })
+            dispatch(setLoading(false))
+            dispatch(setStravaData({...response.data, gotResponse: true }))
+        }  catch {
+          dispatch(setStravaError('Sorry we had trouble getting the user data'))
+          throw Error;
+        }
       } catch {
           dispatch(setStravaError('Sorry we had trouble getting the access token'))
           dispatch(setLoading(false))
@@ -69,21 +82,24 @@ export const fetchMaxTokens = () => {
       }
   }
 
-export const fetchStravaData = async (dispatch: Dispatch<any>, userId: Number) => {
-  dispatch(setLoading(true))
+export const fetchStravaData = () => {
+  return async (dispatch: Dispatch<any>) => {
+   await dispatch(setLoading(true))
+  const stravaID = localStorage.getItem('StravaID')
   try{
         const response = await apiClient({
-          url: `/athletes/${userId}/stats`,
+          url: `/athletes/${stravaID}/stats`,
           method: "get"
         })
         dispatch(setLoading(false))
         dispatch(setStravaData({...response.data, gotResponse: true }))
 
     }  catch {
-    dispatch(setStravaError('Sorry we had trouble getting the user data'))
-    dispatch(setLoading(true))
+        dispatch(setStravaError('Sorry we had trouble getting the user data'))
+        dispatch(setLoading(true))
     throw Error;
     }
+  }
 }
 
 export const fetchMaxData = () => {
@@ -105,8 +121,6 @@ export const fetchMaxData = () => {
 
   export const checkValidTokens = () => {
     return async (dispatch: Dispatch<any>) => {
-      console.log('run in stravquery');
-      
       let currTime = Number(Date.now().toString().slice(0, 10))
       const maxExpirationTime = Number(localStorage.getItem('MaxAccessExpiration'))
       const maxLastAccessToken = localStorage.getItem('MaxAccessToken')
@@ -115,8 +129,9 @@ export const fetchMaxData = () => {
       }
       const stravaExpirationTime = Number(localStorage.getItem('StravaAccessExpiration'))
       const stravaLastAccessToken = localStorage.getItem('StravaAccessToken')
-      if (currTime < stravaExpirationTime && stravaLastAccessToken){
+      const stravaID = localStorage.getItem('StravaID')
+      if (currTime < stravaExpirationTime && stravaLastAccessToken && stravaID){
         dispatch(setStravaValidToken())
-  }
+      }
     }
   }
