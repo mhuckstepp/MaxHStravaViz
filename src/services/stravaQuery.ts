@@ -1,6 +1,7 @@
 import {tokenClient, apiClient, maxClient} from '../api/index'
 import { setLoading, setStravaError, setStravaData, setUserInfo, setMaxValidToken, setStravaValidToken} from '../components/StravaProfile/stravaSlice'
 import { Dispatch } from 'redux';
+import axios from 'axios'
 
 let stravaClientID = process.env["REACT_APP_STRAVA_CLIENTID"]
 let stravaSecret = process.env["REACT_APP_STRAVA_CLIENT_SECRET"]
